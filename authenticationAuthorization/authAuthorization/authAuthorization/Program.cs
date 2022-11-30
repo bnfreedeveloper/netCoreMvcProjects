@@ -13,7 +13,15 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("Main"));
 });
 
-builder.Services.AddIdentity<ApplicationUser,IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options =>
+{
+    options.Lockout = new LockoutOptions()
+    {
+        AllowedForNewUsers = true,
+        DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1),
+        MaxFailedAccessAttempts = 5,
+    };
+})
     .AddEntityFrameworkStores<DatabaseContext>();
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -41,6 +49,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Authentication}/{action=Index}/{id?}");
 
 app.Run();
