@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace authAuthorization.Controllers
 {
     [Authorize(Roles ="admin")]
-    public class AdminController1 : Controller
+    public class AdminController : Controller
     {
+        [HttpGet]
         public IActionResult Index()
         {
-            return View("admin");
+            return View();
         }
     }
 }

@@ -24,21 +24,31 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Autentication" asp-action="register">Register</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="registration">Register</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Autentication" asp-action="login">Login</a>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="login">Login</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="logout">Logout</a>
                         </li>
+                        }
+
                         @if (User.Identity.IsAuthenticated)
                         {
                            <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="index">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="index">Dashboard</a>
                         </li> 
                         }
                         @if (User.IsInRole("admin"))
                         {
                             <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="index">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="index">Admin</a>
                         </li>
                         }
                     </ul>

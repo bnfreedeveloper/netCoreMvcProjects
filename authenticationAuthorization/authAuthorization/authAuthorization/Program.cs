@@ -25,7 +25,7 @@ builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options =>
     .AddEntityFrameworkStores<DatabaseContext>();
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/UserAuthentication/login";
+    options.LoginPath = "/Authentication/login";
 });
 builder.Services.AddScoped<IUserAuthRepo, UserAuthRepository>();
 
@@ -49,6 +49,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Authentication}/{action=Index}/{id?}");
+    pattern: "{controller=Authentication}/{action=Login}/{id?}");
 
 app.Run();

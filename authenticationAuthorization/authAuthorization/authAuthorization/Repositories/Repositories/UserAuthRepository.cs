@@ -42,6 +42,8 @@ namespace authAuthorization.Repositories.Repositories
             
             if (result.Succeeded)
             {
+                //not needed coz the signinmananager will add all the claims related to this user
+
                 //var userRoles = await _userManager.GetRolesAsync(userFound);
                 //var userClaims = new List<Claim>()
                 //{
@@ -83,7 +85,7 @@ namespace authAuthorization.Repositories.Repositories
         public async Task<Status> RegistrationAsync(Registration registrationDto)
         {
             var checkUserExists = await _userManager.FindByEmailAsync(registrationDto.Email);
-            if (checkUserExists == null) return new Status()
+            if (checkUserExists != null) return new Status()
             {
                 StatusCode = 0,
                 StatusMessage = "user already exists"

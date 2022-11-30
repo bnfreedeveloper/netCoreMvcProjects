@@ -1,6 +1,6 @@
-﻿
+﻿@model authAuthorization.Models.Dtos.Login;
 @{
-    Layout = null;
+   
 }
 <html>
     <head>
@@ -8,6 +8,20 @@
         <title>Login</title>
     </head>
     <body>
-        salut
+        
+        <form asp-action="login" asp-controller="Authentication">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label asp-for="UserName"></label>
+                <input class="form-control" asp-for="UserName"/>
+                <span asp-validation-for="UserName"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input class="form-control" asp-for="Password"/>
+                <span asp-validation-for="Password"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </body>
 </html>
