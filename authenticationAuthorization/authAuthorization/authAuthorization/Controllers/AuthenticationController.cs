@@ -29,7 +29,7 @@ namespace authAuthorization.Controllers
             if(result.StatusCode == 0)
             {
                 TempData["message"] = result.StatusMessage;
-                return Redirect(nameof(Login));
+                return RedirectToAction(nameof(Login),"authentication");
             }
             return returnUrl!=null ? Redirect(returnUrl) : RedirectToAction("Index", "Dashboard");   
         }
@@ -66,12 +66,12 @@ namespace authAuthorization.Controllers
             {
                 registrationModel.Role = "admin";
             }
-            else registrationModel.Role = "user";
+           else registrationModel.Role = registrationModel.Role ?? "user";
             var result = await _userAuthRepo.RegistrationAsync(registrationModel);  
             if(result.StatusCode == 0)
             {
                 TempData["message"] = result.StatusMessage;
-                return Redirect(nameof(Registration));
+                return RedirectToAction(nameof(Registration),"Authentication");
             }
             return RedirectToAction("index","Dashboard");
         

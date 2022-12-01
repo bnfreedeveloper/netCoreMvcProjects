@@ -12,11 +12,11 @@ namespace authAuthorization.Models.Dtos
         [Required]
         public string UserName { get; set; }
         [Required]
-        [RegularExpression("^(?=.*[0 - 9])(?=.*[a - z])(?=.*[A - Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{6,}$",ErrorMessage ="must contain at least 1 digit,1 uppercase letter , 1 lowercase letter,1 special character and 6 length minimum")]
+        //[RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*[#$^+=!*()@%&]).{6,}$", ErrorMessage ="must contain at least 1 digit,1 uppercase letter , 1 lowercase letter,1 special character and 6 length minimum")]
         public string Password { get; set; }
         [Required]
         [Compare("Password", ErrorMessage ="password must match")]
         public string PasswordConfirm { get; set; }
-        public string Role { get; set; }    
+        public string? Role { get; set; }    
     }
 }

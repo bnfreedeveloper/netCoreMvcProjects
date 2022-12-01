@@ -8,8 +8,11 @@
         <title>Login</title>
     </head>
     <body>
-        
-        <form asp-action="login" asp-controller="Authentication">
+    @if(TempData["message"] != null)
+    {
+        <h2>@TempData["message"]</h2>
+    }
+    <form asp-action="login" asp-controller="Authentication">
             @Html.AntiForgeryToken()
             <div class="form-group">
                 <label asp-for="UserName"></label>
@@ -23,5 +26,6 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        <a class="btn btn-primary mt-5" asp-area="" asp-controller="Authentication" asp-action="registration">Register</a>
     </body>
 </html>
