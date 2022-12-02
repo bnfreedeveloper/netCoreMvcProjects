@@ -3,6 +3,7 @@ using netCoreMvcAdo.Services;
 
 namespace netCoreMvcAdo.Controllers
 {
+    [Route("student/")]
     public class StudentController : Controller
     {
         private readonly IStudentRepo _studentRepo;
@@ -11,9 +12,9 @@ namespace netCoreMvcAdo.Controllers
             _studentRepo = studentRepository;   
         }
         [HttpGet("students")]
-        public IActionResult GetAllStudent()
+        public async Task<IActionResult> GetAllStudent()
         {
-            return View();
+            return View("students",await _studentRepo.GetStudents()); 
         }
     }
 }
