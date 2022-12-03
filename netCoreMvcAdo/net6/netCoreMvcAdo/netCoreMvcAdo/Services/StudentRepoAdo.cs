@@ -127,5 +127,38 @@ namespace netCoreMvcAdo.Services
                 return false;
             }
         }
+        public async Task<bool> AddStudent(Student student)
+        {
+            try
+            {
+                using (con = new SqlConnection(_connection))
+                {
+                    SqlCommand cmd = new SqlCommand("SP_AddStudent", con);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter
+                    {
+                        ParameterName = "@Name",
+                        Value = student.Name,
+                        Direction = System.Data.ParameterDirection.Input,
+                        SqlDbType = System.Data.SqlDbType.NVarChar
+                    });
+                    cmd.Parameters.Add(new SqlParameter
+                    {
+                        ParameterName = "@Email",
+                        Value = student.Email,
+                        Direction = System.Data.ParameterDirection.Input,
+                        SqlDbType = System.Data.SqlDbType.NVarChar
+                    });
+                    await con.OpenAsync();
+                    var result = await cmd.ExecuteNonQueryAsync();
+                    return result == 1;
+                }
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+            
+        }
     }
 }

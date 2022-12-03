@@ -58,5 +58,24 @@ namespace netCoreMvcAdo.Controllers
                 return RedirectToAction(nameof(GetAllStudent), "Student");
             }
         }
+
+        [HttpGet("add-student")]
+        public IActionResult AddStudent()
+        {
+            return View("addStudent");
+        }
+
+        [HttpPost("add-student")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddStudent(Student student)
+        {
+            var result = await _studentRepo.AddStudent(student);
+            if (!result)
+            {
+                TempData["error"] = "an error occured, check student infos and try again";
+                return View(nameof(AddStudent));
+            }
+            return RedirectToAction(nameof(GetAllStudent));
+        }
     }
 }

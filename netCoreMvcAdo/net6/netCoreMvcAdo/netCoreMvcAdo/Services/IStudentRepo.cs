@@ -7,6 +7,7 @@ namespace netCoreMvcAdo.Services
         Task<List<Student>> GetStudents();
         Task<Student> GetStudentById(int id);
         Task<bool> UpdateStudent(Student student);
-        Task<bool> DeleteStudent(int id);   
+        Task<bool> DeleteStudent(int id);  
+        Task<bool> AddStudent(Student student); 
     }
 }
