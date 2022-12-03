@@ -2,10 +2,24 @@
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+
+@if (TempData["problem"]!= null)
+{
+    <h2>@TempData["problem"]</h2>
+}
 <ul>
-    @foreach(var student in Model)
+
+    @if (Model.Where(x => x.Id == 0).ToList().Count == 1)
     {
-        <li>@student.Id : @student.Name || @student.Email</li>
+        <h2>No student found for this id </h2>
+    }
+    else
+    {
+     @foreach(var student in Model)
+       {
+        <li>@student.Id : @student.Name || @student.Email <button style="margin-right:10px;margin-bottom:5px" class="btn btn-sm btn-outline-primary"><a class="nav-link text-dark"  asp-controller="Student" asp-action="Update" asp-route-id="@student.Id">Update</a> </button>
+            <button style="margin-right:10px;margin-bottom:5px" class="btn btn-sm btn-outline-danger"><a class="nav-link text-dark"  asp-controller="Student" asp-action="delete" asp-route-id="@student.Id">Delete</a></button></li>
+        }
     }
 </ul>
 
