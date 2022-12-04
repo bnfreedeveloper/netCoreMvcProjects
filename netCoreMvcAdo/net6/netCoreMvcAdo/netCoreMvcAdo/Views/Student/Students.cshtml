@@ -19,7 +19,7 @@
        {
         <li>@student.Id : @student.Name || @student.Email <button style="margin-right:10px;margin-bottom:5px" class="btn btn-sm btn-outline-primary"><a class="nav-link text-dark"  asp-controller="Student" asp-action="Update" asp-route-id="@student.Id">Update</a> </button>
             <div class="btn btn-sm btn-outline-danger mb-1" style="display:inline-block">
-                <form asp-action="Delete" asp-controller="Student" asp-route-id ="@student.Id"> <input type="submit" style="margin-right:10px;margin-bottom:5px;border:none" class="btn btn-sm btn-outline-danger" value="delete"> 
+                <form asp-action="Delete" asp-controller="Student" asp-route-id ="@student.Id">@Html.AntiForgeryToken() <button type="submit" style="margin-right:10px;margin-bottom:5px;border:none;" class="btn btn-sm btn-outline-danger nav-link text-dark"> delete</button>
                 </form>
             </div></li>
         }

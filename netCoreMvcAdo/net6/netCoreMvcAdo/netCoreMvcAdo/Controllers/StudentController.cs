@@ -44,6 +44,7 @@ namespace netCoreMvcAdo.Controllers
             }
         }
         [HttpPost("delete/{id:int}")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _studentRepo.DeleteStudent(id);
