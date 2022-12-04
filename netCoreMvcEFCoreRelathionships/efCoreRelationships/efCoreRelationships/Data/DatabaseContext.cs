@@ -9,8 +9,15 @@ namespace efCoreRelationships.Data
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+           var student = modelBuilder.Entity<Student>();
+          student.HasOne(student => student.Location).WithOne(adress =>adress.Student).HasForeignKey<StudentAdress>(adress => adress.StudentId);   
+        }
         public DbSet<Categorie>Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<Student> Students { get; set; }    
+        public DbSet<StudentAdress> StudentAdresses { get; set; }   
     }
 }

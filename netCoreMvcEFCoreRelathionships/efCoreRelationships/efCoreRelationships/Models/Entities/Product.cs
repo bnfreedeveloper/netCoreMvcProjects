@@ -15,11 +15,13 @@ namespace efCoreRelationships.Models.Entities
         [Column(TypeName ="decimal(5,3)")]
         public decimal? Price { get; set; }
 
-        [Column("Category_Id")]
-        public int? CategoryId { get; set; }  
-        
-        [ForeignKey("CategoryId")]
-        public Categorie? Categorie { get; set; }
+        // i decided to make the fk nullable just for ex
+        public int? categId { get; set; }
 
+        [ForeignKey("categId")]
+        public Categorie? Categ { get; set; }
+        
+        
+       
     }
 }
