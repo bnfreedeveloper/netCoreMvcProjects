@@ -21,7 +21,8 @@ namespace efCoreRelationships.Models.Entities
         [ForeignKey("categId")]
         public Categorie? Categ { get; set; }
         
-        
+        [NotMapped]
+        public string? CategoryName { get; set; }    
        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using efCoreRelationships.Data;
+using efCoreRelationships.Models.Dtos;
 using efCoreRelationships.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ namespace efCoreRelationships.Controllers
        
         public async Task<IActionResult> Index()
         {
-            return Ok(await _ctx.Categories.ToListAsync());
+            return Ok(await _ctx.Categories.ToListAsync()) ;
         }
         
         public async Task<IActionResult> Add()
@@ -38,6 +39,21 @@ namespace efCoreRelationships.Controllers
             await _ctx.SaveChangesAsync();
          return RedirectToAction(nameof(Index));
 
+        }
+
+        public async Task<IActionResult> ProductDetails()
+        {
+            var product = await _ctx.Products.Join(_ctx.Categories, p => p.categId, c => c.Id, (product, categorie) =>
+                 
+                    new ProductDto
+                     {
+                         Name = product.Name,
+                         Price = product.Price,
+                         CategoryId = categorie.Id,    
+                         CategoryName = categorie.Name
+                     }
+                 ).ToListAsync();
+            return Ok(product);
         }
     }
 }
