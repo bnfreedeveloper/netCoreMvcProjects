@@ -12,7 +12,12 @@ namespace efCoreRelationships.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            var student = modelBuilder.Entity<Student>();
-          student.HasOne(student => student.Location).WithOne(adress =>adress.Student).HasForeignKey<StudentAdress>(adress => adress.StudentId);   
+          student.HasOne(student => student.Location).WithOne(adress =>adress.Student).HasForeignKey<StudentAdress>(adress => adress.StudentId);
+            //if we we consider 
+            modelBuilder.Entity<StudentAdress>(StudentAdress =>
+            {
+                StudentAdress.HasIndex(s => s.StudentId).IsUnique();
+            });
         }
         public DbSet<Categorie>Categories { get; set; }
         public DbSet<Product> Products { get; set; }
