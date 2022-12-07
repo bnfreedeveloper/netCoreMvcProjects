@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ImageUploadRetrieve.Data;
 using ImageUploadRetrieve.Models;
+using System.IO;
 
 namespace ImageUploadRetrieve.Controllers
 {
@@ -115,7 +116,7 @@ namespace ImageUploadRetrieve.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ImageId,Title,ImageName")] ImageModel imageModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ImageId,Title,ImageName,ImageFile")] ImageModel imageModel)
         {
             if (id != imageModel.ImageId)
             {
@@ -126,8 +127,50 @@ namespace ImageUploadRetrieve.Controllers
             {
                 try
                 {
-                    _context.Update(imageModel);
-                    await _context.SaveChangesAsync();
+                    var oldImage = await _context.Images.FindAsync(id);
+                    var webRootPath = _hostEnvironnement.WebRootPath;
+                    if (oldImage != null)
+                    {
+                        if(oldImage.ImageName != imageModel.ImageName && imageModel.ImageFile != null)
+                        {
+                            var imagePath = Path.Combine(webRootPath,"images",oldImage.ImageName);
+                            if (System.IO.File.Exists(imagePath))
+                            {
+                                System.IO.File.Delete(imagePath);
+                            }
+                            var fileName = oldImage.ImageName;
+                            var extention = Path.GetExtension(fileName);
+                            
+                            var newFileName =imageModel.ImageName ?? Path.GetFileName(imageModel.ImageFile.FileName).Split(".")[0];
+                            var newName = newFileName + DateTime.Now.ToString("yymmssfff") + extention;
+                            imageModel.ImageName = newName;
+                            var newPathFile = Path.Combine(webRootPath + "/images/", newName);
+                            using (var fileStream = new FileStream(newPathFile, FileMode.Create))
+                            {
+                                await imageModel.ImageFile.CopyToAsync(fileStream);
+                            }
+                        }
+                        else
+                        {
+                            if(imageModel.ImageFile != null)
+                            {
+                                using (var fileStream = new FileStream(Path.Combine(webRootPath + "/images/", imageModel.ImageName), FileMode.Open))
+                                {
+                                    imageModel.ImageFile.CopyTo(fileStream);
+                                }
+                            }
+                            
+                        }
+                        
+                    }
+                    if (imageModel.ImageFile != null)
+                    {
+                        oldImage.ImageFile = imageModel.ImageFile;  
+                        oldImage.ImageName = imageModel.ImageName;
+                        oldImage.Title= imageModel.Title;
+                        await _context.SaveChangesAsync();
+                    }
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -166,15 +209,22 @@ namespace ImageUploadRetrieve.Controllers
         // POST: Image/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(ImageModel imgModel)
         {
-            if (_context.Images == null)
-            {
-                return Problem("Entity set 'DatabaseContext.Images'  is null.");
-            }
-            var imageModel = await _context.Images.FindAsync(id);
+            //if (_context.Images == null)
+            //{
+            //    return Problem("Entity set 'DatabaseContext.Images'  is null.");
+            //}
+            var imageModel = await _context.Images.FindAsync(imgModel.ImageId) ;
+            //delete image from wwwroot
+           
             if (imageModel != null)
             {
+                var imagePath = Path.Combine(_hostEnvironnement.WebRootPath, "images", imageModel.ImageName);
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
                 _context.Images.Remove(imageModel);
             }
             
