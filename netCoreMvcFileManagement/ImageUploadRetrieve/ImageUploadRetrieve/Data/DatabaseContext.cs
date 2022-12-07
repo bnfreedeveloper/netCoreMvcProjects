@@ -9,6 +9,6 @@ namespace ImageUploadRetrieve.Data
         {
 
         }
-        DbSet<ImageModel> Images { get; set; }
+        public DbSet<ImageModel> Images { get; set; }
     }
 }

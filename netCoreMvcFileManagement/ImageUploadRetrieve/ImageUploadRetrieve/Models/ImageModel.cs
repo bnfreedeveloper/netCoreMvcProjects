@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ImageUploadRetrieve.Models
@@ -11,7 +12,11 @@ namespace ImageUploadRetrieve.Models
        [Required]
        public string? Title { get; set; }
        [Column(TypeName = "nvarchar(100)")]
-       [Required]
+       [DisplayName("Image Name")]
+       
        public string? ImageName { get; set; }    
+       [NotMapped]
+       [DisplayName("Upload File")]
+       public IFormFile ImageFile { get; set; }
     }
 }
