@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+     var imagePath = $"/images/{@Model.ImageName}";
 }
 
 <h1>Details</h1>
@@ -23,6 +24,7 @@
             @Html.DisplayFor(model => model.ImageName)
         </dd>
     </dl>
+    <img src="@imagePath" width="800" />
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.ImageId">Edit</a> |

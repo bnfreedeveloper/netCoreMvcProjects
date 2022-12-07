@@ -65,14 +65,16 @@ namespace ImageUploadRetrieve.Controllers
                 //we get the path of the wwwroot folder
                 string wwwRootPath = _hostEnvironnement.WebRootPath;
                 //we get the name of the file of IFormFile type
-                var fileName = Path.GetFileName(imageModel.ImageFile.FileName);
+                var file = Path.GetFileName(imageModel.ImageFile.FileName);
+                var fileNameWithoutExtention = file.Split(".")[0];
+
                 //we get the extension of the image
                 var fileNameExention = Path.GetExtension(imageModel.ImageFile.FileName);
                 //i could check if the extension is included in a array of authorized extension
                 //and return to view with message if not
 
                 //we assure the unicity of the image Name by combining date and extension to the fileName
-                fileName += DateTime.Now.ToString("yymmssfff") + fileNameExention;
+                var fileName = fileNameWithoutExtention + DateTime.Now.ToString("yymmssfff") + fileNameExention;
                 imageModel.ImageName = fileName;    
 
                 //we create the full path where to save the image
